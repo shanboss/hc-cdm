@@ -1,4 +1,13 @@
-const fileSystem = [
+interface FileSystemItem {
+  name: string;
+  type: "folder" | "file";
+  description?: string;
+  tables?: string[];
+  referencedBy?: string[];
+  erd?: string;
+  children?: FileSystemItem[];
+}
+const fileSystem: FileSystemItem[] = [
   {
     name: "FHIR_Resources",
     type: "folder",
@@ -48,7 +57,6 @@ const fileSystem = [
           "hc_address",
           "hc_humanname",
         ],
-
         description:
           "A record of a clinical assessment of an allergy or intolerance; a propensity, or a potential risk to an individual, to have an adverse reaction on future exposure to the specified substance, or class of substance. Where a propensity is identified, to record information or evidence about a reaction event that is characterized by any harmful or undesirable physiological response that is specific to the individual and triggered by exposure of an individual to the identified substance or class of substance. Substances include, but are not limited to: a therapeutic substance administered correctly at an appropriate dosage for the individual; food; material derived from plants or animals; or venom from insect stings",
       },
@@ -87,7 +95,6 @@ const fileSystem = [
           "ExplanationOfBenefit",
           "MedicationRequest",
         ],
-
         description:
           "The ClaimResponse resource provides application level adjudication results, or an application level error, which are the result of processing a submitted Claim resource where that Claim may be the functional corollary of a Claim, Predetermination or a Preauthorization.This resource is the only appropriate response to a Claim which a processing system recognizes as a Claim resource. This is the adjudicated response to a Claim, Predetermination or Preauthorization. The strength of the payment aspect of the response is matching to the strength of the original request. For a Claim the adjudication indicates payment which is intended to be made. For Preauthorization no payment will actually be made however funds may be reserved to settle a claim submitted later. For Predetermination no payment will actually be made and no assurance is given that the adjudication of a claim submitted later will match the adjudication provided, for example funds may have been exhausted in the interim. Only an actual claim may be expected to result in actual payment.",
       },

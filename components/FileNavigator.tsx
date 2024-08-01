@@ -3,7 +3,15 @@ import React, { useState } from "react";
 import { FolderIcon, FileIcon, OpenFolderIcon } from "./icons";
 import fileSystem from "@/app/fileSystem";
 import FilePreview from "./FilePreview";
-
+interface FileSystemItem {
+  name: string;
+  type: "folder" | "file";
+  description?: string;
+  tables?: string[];
+  referencedBy?: string[];
+  erd?: string;
+  children?: FileSystemItem[];
+}
 interface FileNavigatorProps {}
 
 const FileNavigator: React.FC<FileNavigatorProps> = () => {
@@ -11,7 +19,8 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
     {}
   );
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
-  const [selectedResource, setSelectedResource] = useState<any | null>(null);
+  const [selectedResource, setSelectedResource] =
+    useState<FileSystemItem | null>(null);
 
   const handleToggle = (folderName: string) => {
     setOpenFolders((prevOpenFolders) => ({
@@ -20,22 +29,12 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
     }));
   };
 
-  const handleFileSelect = (fileName: string, resource: any) => {
+  const handleFileSelect = (fileName: string, resource: FileSystemItem) => {
     setSelectedDocument(fileName);
     setSelectedResource(resource);
   };
 
-  const renderItems = (
-    items: Array<{
-      name: string;
-      type: "folder" | "file";
-      description?: string;
-      tables?: string[];
-      referencedBy?: string[];
-      erd?: string;
-      children?: Array<{ name: string; type: "folder" | "file" }>;
-    }>
-  ) => {
+  const renderItems = (items: FileSystemItem[]) => {
     return items.map((item, index) => {
       if (item.type === "folder") {
         return (
@@ -84,12 +83,12 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
           {selectedDocument ? (
             <FilePreview
               description={
-                selectedResource.description || "No description available."
+                selectedResource?.description || "No description available."
               }
-              tables={selectedResource.tables || []}
-              referencedBy={selectedResource.referencedBy || []}
+              tables={selectedResource?.tables || []}
+              referencedBy={selectedResource?.referencedBy || []}
               resourceName={selectedDocument}
-              erd={selectedResource.erd || ""}
+              erd={selectedResource?.erd || ""}
             />
           ) : (
             <h3>Select a document</h3>
