@@ -56,7 +56,7 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <img className="h-16 w-auto" src="/untitled.png" />
+            <img className="h-12 w-auto" src="/footer-logo.png" />
             <p className="font-bold text-inherit">
               Health-Chain Common Data Model
             </p>
