@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/GraphComponents/HorizontalGraph.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/GraphComponents/HorizontalGraph.js", "components/ReadCSV.js"],
   "exclude": ["node_modules"]
 }

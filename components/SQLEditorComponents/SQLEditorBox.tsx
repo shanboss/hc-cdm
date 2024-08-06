@@ -1,21 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
-const SqlInput: React.FC = () => {
-  const [query, setQuery] = useState("");
-  const [scriptName, setScriptName] = useState("");
+interface SqlInputProps {
+  query: string;
+  scriptName: string;
+  onQueryChange: (query: string) => void;
+  onScriptNameChange: (scriptName: string) => void;
+  onRunQuery: () => void;
+}
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setQuery(event.target.value);
+const SqlInput: React.FC<SqlInputProps> = ({
+  query,
+  scriptName,
+  onQueryChange,
+  onScriptNameChange,
+  onRunQuery,
+}) => {
+  const handleQueryChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onQueryChange(event.target.value);
   };
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setScriptName(event.target.value);
-  };
-
-  const handleRunQuery = () => {
-    // Placeholder for running the query
-    console.log("Running query:", query);
+  const handleScriptNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    onScriptNameChange(event.target.value);
   };
 
   return (
@@ -26,10 +34,9 @@ const SqlInput: React.FC = () => {
           id="script-name"
           name="script-name"
           value={scriptName}
-          onChange={handleNameChange}
+          onChange={handleScriptNameChange}
           className="block w-full p-2 font-mono text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm "
           placeholder="Untitled Script"
-          style={{ resize: "none" }}
         />
       </div>
       <div className="mt-2 relative rounded-md shadow-sm">
@@ -40,20 +47,20 @@ const SqlInput: React.FC = () => {
           className="block w-full p-3 font-mono text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm min-h-40"
           placeholder="Enter your SQL query here..."
           value={query}
-          onChange={handleInputChange}
+          onChange={handleQueryChange}
         ></textarea>
       </div>
       <div className="flex justify-end mt-2 gap-x-2">
         <button
           type="button"
-          onClick={handleRunQuery}
+          onClick={onRunQuery}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 duration-200"
         >
           Save to local
         </button>
         <button
           type="button"
-          onClick={handleRunQuery}
+          onClick={onRunQuery}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 duration-200"
         >
           Run Query

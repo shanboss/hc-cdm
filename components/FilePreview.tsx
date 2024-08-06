@@ -63,9 +63,6 @@ const FilePreview: React.FC<FilePreviewProps> = ({
         <div ref={descriptionRef}>
           <h2 className="text-lg font-semibold text-gray-200">Description</h2>
           <p className="mt-2 text-gray-400">{description}</p>
-          {erd && (
-            <img src={erd} alt={`${resourceName} ERD`} className="mt-4" />
-          )}
         </div>
         <div ref={tablesRef} className="mt-8">
           <h2 className="text-lg font-semibold text-gray-200">Tables</h2>

@@ -415,7 +415,8 @@ const fileSystem: FileSystemItem[] = [
       {
         name: "RelatedPerson",
         type: "file",
-        description: "This is the description for the RelatedPerson resource.",
+        description: `RelatedPerson resource represents an individual who is involved in the care of a patient but is not a direct healthcare provider, such as a family member or caregiver. It includes details like their relationship to the patient, contact information, and identifiers. This resource is crucial for documenting the support network around a patient, facilitating communication and coordination of care. By capturing information about individuals who play a role in the patient's care, it helps ensure comprehensive and patient-centered care planning.
+https://hl7.org/fhir/r4/relatedperson.html`,
         tables: [
           "hc_relatedperson",
           "hc_relatedperson_communication",
@@ -432,11 +433,16 @@ const fileSystem: FileSystemItem[] = [
           "hc_humanname",
           "hc_assigner",
         ],
+        referencedBy: [
+          `Account,AllergyIntolerance,Claim,Condition,Coverage,Encounter,ExplanationOfBenefit,Observation,Patient,Procedure,Provenance`,
+        ],
       },
       {
         name: "ServiceRequest",
         type: "file",
-        description: "This is the description for the ServiceRequest resource.",
+        description: `
+ServiceRequest resource documents a request for a healthcare service to be performed, such as diagnostic tests, treatments, or consultations. It includes details such as the requested service, requester, performer, priority, and patient. This resource is essential for managing and tracking the delivery of healthcare services, ensuring that appropriate actions are taken in response to clinical needs. By standardizing service requests, it supports efficient communication, coordination, and fulfillment of healthcare services across different providers and settings.
+`,
         tables: [
           "hc_servicerequest",
           "hc_annotation",
@@ -451,6 +457,10 @@ const fileSystem: FileSystemItem[] = [
           "hc_canonical",
           "hc_uri",
           "hc_assigner",
+        ],
+        referencedBy: [
+          `Claim,Encounter,ExplanationOfBenefit,Observation,Procedure
+`,
         ],
       },
       {
