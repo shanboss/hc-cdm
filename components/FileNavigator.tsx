@@ -40,7 +40,7 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
         return (
           <div key={index} className="ml-4">
             <div
-              className="flex items-center p-2 border-b border-gray-200 hover:bg-gray-900 transition"
+              className="flex items-center p-2 border-b w-[20rem] border-gray-200 hover:bg-gray-900 transition"
               onClick={() => handleToggle(item.name)}
             >
               {openFolders[item.name] ? <OpenFolderIcon /> : <FolderIcon />}
@@ -73,11 +73,11 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
 
   return (
     <div className="flex w-full p-4 bg-black rounded-lg shadow-md">
-      <div className="w-1/2 p-4">
+      <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-200">Projects</h2>
         <div className="mt-4">{renderItems(fileSystem)}</div>
       </div>
-      <div className="w-1/2 p-4 bg-gray-800 rounded-lg shadow-inner">
+      <div className="p-4 bg-gray-800 rounded-lg shadow-inner w-full h-full">
         <h2 className="text-lg font-semibold text-gray-200">Document Viewer</h2>
         <div className="mt-4 text-gray-200">
           {selectedDocument ? (

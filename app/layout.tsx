@@ -8,6 +8,17 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import Sidebar from "@/components/Sidebar";
+
+const links = [
+  { name: "FHIR Resources", url: "/" },
+  { name: "Data Marts", subLinks: [{ name: "Finance", url: "/DataMarts" }] },
+  { name: "Query Editor", url: "/QueryEditor" },
+  {
+    name: "Reports",
+    subLinks: [{ name: "Finance", url: "/Overview" }],
+  },
+];
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +55,10 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
-            <main className="container ml-1 flex-grow mt-2">{children}</main>
+            <div className="flex flex-row flex-grow">
+              <Sidebar links={links} />
+              <main className="ml-64 p-6 flex-grow">{children}</main>
+            </div>
             <footer className="w-full flex items-center justify-center py-3"></footer>
           </div>
         </Providers>
