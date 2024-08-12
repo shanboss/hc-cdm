@@ -3,7 +3,7 @@ import { JsonTableProps } from "./interfaces";
 
 const JsonTable: React.FC<JsonTableProps> = ({ data }) => {
   if (data.length === 0) {
-    return <div>No data available.</div>;
+    return <div>Run a query</div>;
   }
 
   // Get table headers from keys of the first object

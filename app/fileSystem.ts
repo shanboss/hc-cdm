@@ -4,7 +4,7 @@ interface FileSystemItem {
   description?: string;
   tables?: string[];
   referencedBy?: string[];
-  erd?: string;
+  source?: string;
   children?: FileSystemItem[];
 }
 const fileSystem: FileSystemItem[] = [
@@ -13,7 +13,6 @@ const fileSystem: FileSystemItem[] = [
     type: "folder",
     children: [
       {
-        erd: "/Account.png",
         name: "Account",
         type: "file",
         description:
@@ -35,9 +34,9 @@ const fileSystem: FileSystemItem[] = [
           "hc_contactpoint",
         ],
         referencedBy: ["Encounter", "Episode of Care"],
+        source: "https://hl7.org/fhir/r4/account.html",
       },
       {
-        erd: "/AllergyIntolerance-2.png",
         name: "AllergyIntolerance",
         type: "file",
         tables: [
@@ -57,12 +56,16 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        source: "https://hl7.org/fhir/r4/allergyintolerance.html",
+        referencedBy: ["Family Member History"],
+
         description:
           "A record of a clinical assessment of an allergy or intolerance; a propensity, or a potential risk to an individual, to have an adverse reaction on future exposure to the specified substance, or class of substance. Where a propensity is identified, to record information or evidence about a reaction event that is characterized by any harmful or undesirable physiological response that is specific to the individual and triggered by exposure of an individual to the identified substance or class of substance. Substances include, but are not limited to: a therapeutic substance administered correctly at an appropriate dosage for the individual; food; material derived from plants or animals; or venom from insect stings",
       },
       {
-        erd: "/ClaimResponse.png",
         name: "ClaimResponse",
+        source: "https://hl7.org/fhir/r4/claimresponse.html",
+
         type: "file",
         tables: [
           "hc_claimresponse",
@@ -89,6 +92,7 @@ const fileSystem: FileSystemItem[] = [
           "hc_uri",
           "hc_assigner",
         ],
+
         referencedBy: [
           "Claim",
           "ClaimResponse",
@@ -101,7 +105,8 @@ const fileSystem: FileSystemItem[] = [
       {
         name: "Condition",
         type: "file",
-        description: "This is the description for the Condition resource.",
+        description: `A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern.
+This resource is used to record detailed information about a condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern. The condition could be a point in time diagnosis in context of an encounter, it could be an item on the practitioner’s Problem List, or it could be a concern that doesn’t exist on the practitioner’s Problem List. Often times, a condition is about a clinician's assessment and assertion of a particular aspect of a patient's state of health`,
         tables: [
           "hc_condition",
           "hc_identifier",
@@ -117,12 +122,13 @@ const fileSystem: FileSystemItem[] = [
           "hc_annotation",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/condition.html",
       },
       {
         name: "Coverage",
         type: "file",
         description:
-          "Financial instrument which may be used to reimburse or pay for health care products and services. Includes both insurance and self-payment.  The Coverage resource is intended to provide the high-level identifiers and descriptors of an insurance plan, typically the information which would appear on an insurance card, which may be used to pay, in part or in whole, for the provision of health care products and services.  Referenced By  Account, Claim, ClaimResponse, DeviceRequest, ExplanationOfBenefit.  https://hl7.org/fhir/r4/coverage.html",
+          "Financial instrument which may be used to reimburse or pay for health care products and services. Includes both insurance and self-payment.  The Coverage resource is intended to provide the high-level identifiers and descriptors of an insurance plan, typically the information which would appear on an insurance card, which may be used to pay, in part or in whole, for the provision of health care products and services.",
         tables: [
           "hc_coverage",
           "hc_coverage_class",
@@ -140,6 +146,14 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_contactpoint",
         ],
+        referencedBy: [
+          "Account",
+          "Claim",
+          "ClaimResponse",
+          "DeviceRequest",
+          "ExplanationOfBenefit",
+        ],
+        source: "https://hl7.org/fhir/r4/coverage.html",
       },
       {
         name: "Device",
@@ -166,12 +180,20 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        referencedBy: [
+          "Account",
+          "Claim",
+          "ExplanationOfBenefit",
+          "Observation",
+          "Procedure",
+        ],
+        source: "https://hl7.org/fhir/r4/device.html",
       },
       {
         name: "Encounter",
         type: "file",
         description:
-          "Encounter resource represents an interaction between a patient and healthcare provider(s) for the purpose of providing healthcare services or assessing the patient's health status. It includes details such as the type, status, and period of the encounter, as well as the location and participants involved. This resource is essential for recording information about the context of care delivery, including inpatient, outpatient, and emergency visits. It helps in managing and exchanging data about patient visits, ensuring coordinated and comprehensive care.  Referenced By  Claim, ExplanationOfBenefit, Observation, Procedure   https://hl7.org/fhir/r4/encounter.html",
+          "Encounter resource represents an interaction between a patient and healthcare provider(s) for the purpose of providing healthcare services or assessing the patient's health status. It includes details such as the type, status, and period of the encounter, as well as the location and participants involved. This resource is essential for recording information about the context of care delivery, including inpatient, outpatient, and emergency visits. It helps in managing and exchanging data about patient visits, ensuring coordinated and comprehensive care.",
         tables: [
           "hc_encounter",
           "hc_encounter_classhistory",
@@ -191,12 +213,19 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        referencedBy: [
+          "Claim",
+          "ExplanationOfBenefit",
+          "Observation",
+          "Procedure",
+        ],
+        source: "https://hl7.org/fhir/r4/encounter.html",
       },
       {
         name: "EpisodeOfCare",
         type: "file",
         description:
-          "EpisodeOfCare resource represents a span of healthcare service provided to a patient, often over a period of time, and typically covering a specific condition or healthcare issue. It includes details such as the managing organization, status, type, diagnosis, and the patient's care team. This resource helps in organizing and tracking the various care activities and encounters related to a particular medical condition or series of treatments. It is used to coordinate care across multiple services and providers, ensuring continuity and comprehensive management of the patient's health issues.  Referenced By  Encounter  https://hl7.org/fhir/r4/episodeofcare.html",
+          "EpisodeOfCare resource represents a span of healthcare service provided to a patient, often over a period of time, and typically covering a specific condition or healthcare issue. It includes details such as the managing organization, status, type, diagnosis, and the patient's care team. This resource helps in organizing and tracking the various care activities and encounters related to a particular medical condition or series of treatments. It is used to coordinate care across multiple services and providers, ensuring continuity and comprehensive management of the patient's health issues.",
         tables: [
           "hc_episodeofcare",
           "hc_episodeofcare_diagnosis",
@@ -213,12 +242,14 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        source: "https://hl7.org/fhir/r4/episodeofcare.html",
+        referencedBy: ["Encounter"],
       },
       {
         name: "Location",
         type: "file",
         description:
-          "Location resource represents a physical place where healthcare services are provided, such as a hospital, clinic, or ward. It includes details like the name, description, type, physical address, managing organization, and operational status of the location. This resource is crucial for identifying and managing the places where healthcare interactions occur, ensuring accurate and efficient coordination of services. It also supports the administrative and logistical aspects of healthcare delivery by providing information necessary for locating and utilizing healthcare facilities.  Referenced By  Account,Claim,ClaimResponse,Device,Encounter,ExplanationOfBenefit,Observation,PractitionerRole,Procedure,Provenance  https://hl7.org/fhir/r4/location.html",
+          "Location resource represents a physical place where healthcare services are provided, such as a hospital, clinic, or ward. It includes details like the name, description, type, physical address, managing organization, and operational status of the location. This resource is crucial for identifying and managing the places where healthcare interactions occur, ensuring accurate and efficient coordination of services. It also supports the administrative and logistical aspects of healthcare delivery by providing information necessary for locating and utilizing healthcare facilities.",
         tables: [
           "hc_location",
           "hc_location_hoursofoperation",
@@ -234,12 +265,25 @@ const fileSystem: FileSystemItem[] = [
           "hc_assigner",
           "hc_humanname",
         ],
+        source: "https://hl7.org/fhir/r4/location.html",
+        referencedBy: [
+          "Account",
+          "Claim",
+          "ClaimResponse",
+          "Device",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "Observation",
+          "PractitionerRole",
+          "Procedure",
+          "Provenance",
+        ],
       },
       {
         name: "MessageHeader",
         type: "file",
         description:
-          "MessageHeader resource provides metadata about a message exchange, serving as a wrapper for communication between healthcare systems. It includes details such as the event type, source and destination of the message, timestamp, and any relevant identifiers. This resource is essential for tracking and managing the flow of information, ensuring messages are correctly routed and processed. By encapsulating the context and routing information, MessageHeader facilitates reliable and organized exchange of clinical and administrative data across different healthcare systems.  Referenced By  None  https://hl7.org/fhir/r4/messageheader.html",
+          "MessageHeader resource provides metadata about a message exchange, serving as a wrapper for communication between healthcare systems. It includes details such as the event type, source and destination of the message, timestamp, and any relevant identifiers. This resource is essential for tracking and managing the flow of information, ensuring messages are correctly routed and processed. By encapsulating the context and routing information, MessageHeader facilitates reliable and organized exchange of clinical and administrative data across different healthcare systems.",
         tables: [
           "hc_messageheader",
           "hc_messageheader_destination",
@@ -255,12 +299,14 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        source: "https://hl7.org/fhir/r4/messageheader.html",
+        referencedBy: ["None"],
       },
       {
         name: "Observation",
         type: "file",
         description:
-          "The FHIR Observation resource records measurements and clinical assessments related to a patient's health status, such as vital signs, laboratory results, and other clinical observations. It includes details like the observation's type, value, status, and the time it was made, as well as the subject (patient), performer (clinician), and any relevant interpretations or references. This resource is fundamental for capturing clinical data that informs diagnosis, treatment, and monitoring of health conditions. It supports interoperability by standardizing the way observations are documented and shared, ensuring consistency and accuracy in patient care.  Referenced By  Condition, Encounter, Procedure  https://hl7.org/fhir/r4/observation.html",
+          "The FHIR Observation resource records measurements and clinical assessments related to a patient's health status, such as vital signs, laboratory results, and other clinical observations. It includes details like the observation's type, value, status, and the time it was made, as well as the subject (patient), performer (clinician), and any relevant interpretations or references. This resource is fundamental for capturing clinical data that informs diagnosis, treatment, and monitoring of health conditions. It supports interoperability by standardizing the way observations are documented and shared, ensuring consistency and accuracy in patient care.",
         tables: [
           "hc_observation",
           "hc_observation_referencerange",
@@ -278,12 +324,14 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_contactpoint",
         ],
+        source: "https://hl7.org/fhir/r4/observation.html",
+        referencedBy: ["Condition", "Encounter", "Procedure"],
       },
       {
         name: "Organization",
         type: "file",
         description:
-          "Organization resource represents an entity involved in the provision or administration of healthcare services, such as hospitals, clinics, insurance companies, and governmental bodies. It includes details like the organization's name, type, contact information, address, and identifiers. This resource is crucial for managing and referencing the various institutions and groups within the healthcare system, ensuring clear communication and coordination. By standardizing information about organizations, it supports efficient administration, interoperability, and the accurate routing of healthcare data and services.  Referenced By  Account,Claim,ClaimResponse,Coverage,Device,Encounter,ExplanationOfBenefit,Location,MessageHeader,Observation,Patient,Practitioner,PractitionerRole,Procedure,Provenance  https://hl7.org/fhir/r4/organization.html",
+          "Organization resource represents an entity involved in the provision or administration of healthcare services, such as hospitals, clinics, insurance companies, and governmental bodies. It includes details like the organization's name, type, contact information, address, and identifiers. This resource is crucial for managing and referencing the various institutions and groups within the healthcare system, ensuring clear communication and coordination. By standardizing information about organizations, it supports efficient administration, interoperability, and the accurate routing of healthcare data and services.",
         tables: [
           "hc_organization",
           "hc_organization_contact",
@@ -299,12 +347,30 @@ const fileSystem: FileSystemItem[] = [
           "hc_uri",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/organization.html",
+        referencedBy: [
+          "Account",
+          "Claim",
+          "ClaimResponse",
+          "Coverage",
+          "Device",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "Location",
+          "MessageHeader",
+          "Observation",
+          "Patient",
+          "Practitioner",
+          "PractitionerRole",
+          "Procedure",
+          "Provenance",
+        ],
       },
       {
         name: "Patient",
         type: "file",
         description:
-          "Patient resource represents an individual receiving healthcare services. It includes details such as the patient's name, gender, birth date, contact information, and identifiers like medical record numbers. This resource is essential for documenting personal and demographic information critical to patient care, ensuring accurate identification and communication across healthcare systems. It supports interoperability by providing a standardized way to manage patient data, facilitating coordinated and continuous care.  Referenced By  Account,AllergyIntolerance,Claim,ClaimResponse,Condition,Coverage,Device,Encounter,ExplanationOfBenefit,Observation,Procedure,Provenance.  https://hl7.org/fhir/r4/patient.html",
+          "Patient resource represents an individual receiving healthcare services. It includes details such as the patient's name, gender, birth date, contact information, and identifiers like medical record numbers. This resource is essential for documenting personal and demographic information critical to patient care, ensuring accurate identification and communication across healthcare systems. It supports interoperability by providing a standardized way to manage patient data, facilitating coordinated and continuous care.",
         tables: [
           "hc_patient",
           "hc_patient_communication",
@@ -323,12 +389,27 @@ const fileSystem: FileSystemItem[] = [
           "hc_attachment",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/patient.html",
+        referencedBy: [
+          "Account",
+          "AllergyIntolerance",
+          "Claim",
+          "ClaimResponse",
+          "Condition",
+          "Coverage",
+          "Device",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "Observation",
+          "Procedure",
+          "Provenance",
+        ],
       },
       {
         name: "Practitioner",
         type: "file",
         description:
-          "Practitioner resource represents an individual who is involved in the provision of healthcare services, such as a doctor, nurse, or therapist. It includes details like the practitioner's name, qualifications, contact information, and identifiers. This resource is vital for recording information about healthcare providers, ensuring accurate identification and credential verification. By standardizing practitioner data, it supports interoperability and effective coordination of care across different healthcare settings.  Referenced By  Account,AllergyIntolerance,Claim,ClaimResponse,Condition,Encounter,ExplanationOfBenefit,MessageHeader,Observation,Patient,PractitionerRole,Procedure,Provenance.  https://hl7.org/fhir/r4/practitioner.html",
+          "Practitioner resource represents an individual who is involved in the provision of healthcare services, such as a doctor, nurse, or therapist. It includes details like the practitioner's name, qualifications, contact information, and identifiers. This resource is vital for recording information about healthcare providers, ensuring accurate identification and credential verification. By standardizing practitioner data, it supports interoperability and effective coordination of care across different healthcare settings.",
         tables: [
           "hc_practitioner",
           "hc_practitioner_qualification",
@@ -345,12 +426,28 @@ const fileSystem: FileSystemItem[] = [
           "hc_uri",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/practitioner.html",
+        referencedBy: [
+          "Account",
+          "AllergyIntolerance",
+          "Claim",
+          "ClaimResponse",
+          "Condition",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "MessageHeader",
+          "Observation",
+          "Patient",
+          "PractitionerRole",
+          "Procedure",
+          "Provenance",
+        ],
       },
       {
         name: "PractitionerRole",
         type: "file",
         description:
-          "PractitionerRole resource specifies the roles and responsibilities of a practitioner within an organization. It includes details such as the practitioner, their role, the organization they work for, and the services they provide. This resource helps in managing the various functions and duties practitioners perform, facilitating appropriate assignment and coordination of tasks. It supports interoperability by clearly defining practitioner roles, ensuring accurate and efficient healthcare delivery.  Referenced By  Account,AllergyIntolerance,Claim,ClaimResponse,Condition,Encounter,ExplanationOfBenefit,MessageHeader,Observation,Patient,Procedure,Provenance  https://hl7.org/fhir/r4/practitionerrole.html",
+          "PractitionerRole resource specifies the roles and responsibilities of a practitioner within an organization. It includes details such as the practitioner, their role, the organization they work for, and the services they provide. This resource helps in managing the various functions and duties practitioners perform, facilitating appropriate assignment and coordination of tasks. It supports interoperability by clearly defining practitioner roles, ensuring accurate and efficient healthcare delivery.",
         tables: [
           "hc_practitionerrole",
           "hc_practitionerrole_availabletime",
@@ -367,12 +464,27 @@ const fileSystem: FileSystemItem[] = [
           "hc_humanname",
           "hc_identifier",
         ],
+        source: "https://hl7.org/fhir/r4/practitionerrole.html",
+        referencedBy: [
+          "Account",
+          "AllergyIntolerance",
+          "Claim",
+          "ClaimResponse",
+          "Condition",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "MessageHeader",
+          "Observation",
+          "Patient",
+          "Procedure",
+          "Provenance",
+        ],
       },
       {
         name: "Procedure",
         type: "file",
         description:
-          "FHIR Procedure resource records actions taken to improve or assess a patient's health, such as surgeries, diagnostic tests, or therapies. It includes details like the type of procedure, date, status, performer, and patient. This resource is crucial for documenting medical interventions, providing a comprehensive view of the patient's treatment history. By standardizing procedure information, it supports accurate reporting, analysis, and coordination of care.  Referenced By  Claim,Encounter,ExplanationOfBenefit,Observation  https://hl7.org/fhir/r4/procedure.html",
+          "FHIR Procedure resource records actions taken to improve or assess a patient's health, such as surgeries, diagnostic tests, or therapies. It includes details like the type of procedure, date, status, performer, and patient. This resource is crucial for documenting medical interventions, providing a comprehensive view of the patient's treatment history. By standardizing procedure information, it supports accurate reporting, analysis, and coordination of care.",
         tables: [
           "hc_procedure",
           "hc_codeableconcept",
@@ -388,12 +500,19 @@ const fileSystem: FileSystemItem[] = [
           "hc_address",
           "hc_humanname",
         ],
+        source: "https://hl7.org/fhir/r4/procedure.html",
+        referencedBy: [
+          "Claim",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "Observation",
+        ],
       },
       {
         name: "Provenance",
         type: "file",
         description:
-          "The FHIR Provenance resource provides a record of the history and origin of a healthcare record or resource, documenting the changes and the actors involved in its creation or modification. It includes details such as the source of the resource, the agents responsible, the time of actions, and the reason for changes. This resource is essential for ensuring data integrity and accountability by tracking the lineage and authenticity of healthcare information. It supports auditing and compliance by providing a transparent history of how and by whom a resource was handled.  Referenced By  None  https://hl7.org/fhir/r4/provenance.html",
+          "The FHIR Provenance resource provides a record of the history and origin of a healthcare record or resource, documenting the changes and the actors involved in its creation or modification. It includes details such as the source of the resource, the agents responsible, the time of actions, and the reason for changes. This resource is essential for ensuring data integrity and accountability by tracking the lineage and authenticity of healthcare information. It supports auditing and compliance by providing a transparent history of how and by whom a resource was handled. ",
         tables: [
           "hc_provenance",
           "hc_provenance_agent",
@@ -411,12 +530,16 @@ const fileSystem: FileSystemItem[] = [
           "hc_humanname",
           "hc_contactpoint",
         ],
+
+        source: "https://hl7.org/fhir/r4/provenance.html",
+        referencedBy: ["None"],
       },
       {
         name: "RelatedPerson",
         type: "file",
-        description: `RelatedPerson resource represents an individual who is involved in the care of a patient but is not a direct healthcare provider, such as a family member or caregiver. It includes details like their relationship to the patient, contact information, and identifiers. This resource is crucial for documenting the support network around a patient, facilitating communication and coordination of care. By capturing information about individuals who play a role in the patient's care, it helps ensure comprehensive and patient-centered care planning.
-https://hl7.org/fhir/r4/relatedperson.html`,
+        description:
+          "RelatedPerson resource represents an individual who is involved in the care of a patient but is not a direct healthcare provider, such as a family member or caregiver. It includes details like their relationship to the patient, contact information, and identifiers. This resource is crucial for documenting the support network around a patient, facilitating communication and coordination of care. By capturing information about individuals who play a role in the patient's care, it helps ensure comprehensive and patient-centered care planning.",
+
         tables: [
           "hc_relatedperson",
           "hc_relatedperson_communication",
@@ -434,8 +557,19 @@ https://hl7.org/fhir/r4/relatedperson.html`,
           "hc_assigner",
         ],
         referencedBy: [
-          `Account,AllergyIntolerance,Claim,Condition,Coverage,Encounter,ExplanationOfBenefit,Observation,Patient,Procedure,Provenance`,
+          "Account",
+          "AllergyIntolerance",
+          "Claim",
+          "Condition",
+          "Coverage",
+          "Encounter",
+          "ExplanationOfBenefit",
+          "Observation",
+          "Patient",
+          "Procedure",
+          "Provenance",
         ],
+        source: "https://hl7.org/fhir/r4/relatedperson.html",
       },
       {
         name: "ServiceRequest",
@@ -462,17 +596,18 @@ ServiceRequest resource documents a request for a healthcare service to be perfo
           `Claim,Encounter,ExplanationOfBenefit,Observation,Procedure
 `,
         ],
+        source: "https://hl7.org/fhir/r4/servicerequest.html",
       },
       {
         name: "ExplanationOfBenefit",
         type: "file",
         description:
-          "ExplanationOfBenefit  ExplanationOfBenefit (EOB) resource provides a detailed accounting of the financial transactions related to the reimbursement of healthcare services. It includes information about the patient, provider, services rendered, and the amounts claimed, approved, and paid. This resource helps patients and providers understand the financial aspects of care, such as coverage details and patient responsibility. By standardizing financial information, it supports transparency, efficiency, and interoperability in healthcare billing and reimbursement.  Referenced By  None  https://hl7.org/fhir/r4/explanationofbenefit.html.",
+          "ExplanationOfBenefit  ExplanationOfBenefit (EOB) resource provides a detailed accounting of the financial transactions related to the reimbursement of healthcare services. It includes information about the patient, provider, services rendered, and the amounts claimed, approved, and paid. This resource helps patients and providers understand the financial aspects of care, such as coverage details and patient responsibility. By standardizing financial information, it supports transparency, efficiency, and interoperability in healthcare billing and reimbursement.",
         tables: [
-          "hc_explanation_of_benefit",
-          "hc_explanation_of_benefit_insurance",
-          "hc_explanation_of_benefit_detail",
-          "hc_explanation_of_benefit_item",
+          "hc_explanationOfbenefit",
+          "hc_explanationOfbenefit_insurance",
+          "hc_explanationOfbenefit_detail",
+          "hc_explanationOfbenefit_item",
           "hc_adjudication",
           "hc_annotation",
           "hc_contactpoint",
@@ -487,12 +622,14 @@ ServiceRequest resource documents a request for a healthcare service to be perfo
           "hc_uri",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/explanationofbenefit.html",
+        referencedBy: ["None"],
       },
       {
         name: "Claim",
         type: "file",
         description:
-          "Claim resource represents a request for payment for healthcare services provided to a patient, submitted by a healthcare provider to an insurer or payer. It includes details about the patient, services rendered, provider, and the claimed amount. This resource is essential for managing and processing healthcare billing, ensuring providers receive compensation for their services. By standardizing claim information, it facilitates accurate, efficient, and interoperable billing and reimbursement processes in healthcare.  Referenced By  ClaimResponse,ExplanationOfBenefit  https://hl7.org/fhir/r4/claim.html",
+          "Claim resource represents a request for payment for healthcare services provided to a patient, submitted by a healthcare provider to an insurer or payer. It includes details about the patient, services rendered, provider, and the claimed amount. This resource is essential for managing and processing healthcare billing, ensuring providers receive compensation for their services. By standardizing claim information, it facilitates accurate, efficient, and interoperable billing and reimbursement processes in healthcare.",
         tables: [
           "hc_claim",
           "hc_claim_procedure",
@@ -517,6 +654,8 @@ ServiceRequest resource documents a request for a healthcare service to be perfo
           "hc_uri",
           "hc_assigner",
         ],
+        source: "https://hl7.org/fhir/r4/claim.html",
+        referencedBy: ["ClaimResponse", "ExplanationOfBenefit"],
       },
       // Add other FHIR resources as needed...
     ],

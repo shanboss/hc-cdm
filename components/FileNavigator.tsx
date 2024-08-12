@@ -9,7 +9,7 @@ interface FileSystemItem {
   description?: string;
   tables?: string[];
   referencedBy?: string[];
-  erd?: string;
+  source?: string;
   children?: FileSystemItem[];
 }
 interface FileNavigatorProps {}
@@ -57,7 +57,7 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
           <div
             key={index}
             className={`flex items-center p-2 pl-8 border-b border-gray-200 transition cursor-pointer ${
-              isSelected ? "bg-gray-900" : "hover:bg-gray-900"
+              isSelected ? "bg-gray-900" : "hover:bg-gray-900 rounded-md"
             }`}
             onClick={() => handleFileSelect(item.name, item)}
           >
@@ -85,10 +85,10 @@ const FileNavigator: React.FC<FileNavigatorProps> = () => {
               description={
                 selectedResource?.description || "No description available."
               }
+              source={selectedResource?.source || "No source available."}
               tables={selectedResource?.tables || []}
               referencedBy={selectedResource?.referencedBy || []}
               resourceName={selectedDocument}
-              erd={selectedResource?.erd || ""}
             />
           ) : (
             <h3>Select a document</h3>

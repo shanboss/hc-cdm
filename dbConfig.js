@@ -13,7 +13,10 @@ const config = {
   },
 };
 
-const poolPromise = new sql.ConnectionPool(config)
+const cred =
+  "jdbc:sqlserver://hcfhirplus.database.windows.net:1433;database=HCFhirPlus;user=hcfhirplus@hcfhirplus;password=hcfhirplus@123;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+
+const poolPromise = new sql.ConnectionPool(cred)
   .connect()
   .then((pool) => {
     console.log("Connected to MSSQL");

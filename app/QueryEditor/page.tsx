@@ -61,6 +61,7 @@ const Page: React.FC = () => {
       <div className="text-xl font-bold bg-gray-800 p-4 rounded-md w-full mt-4">
         Output
         <JsonTable data={output} />
+        {/**
         Raw JSON Output
         <textarea
           id="sql-output"
@@ -71,6 +72,7 @@ const Page: React.FC = () => {
           value={JSON.stringify(output, null, 2)}
           readOnly
         ></textarea>
+         */}
       </div>
     </div>
   );

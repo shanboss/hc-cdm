@@ -7,7 +7,7 @@ interface FilePreviewProps {
   tables: string[];
   referencedBy: string[];
   resourceName: string;
-  erd: string;
+  source: string;
 }
 
 const FilePreview: React.FC<FilePreviewProps> = ({
@@ -15,7 +15,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({
   tables,
   referencedBy,
   resourceName,
-  erd,
+  source,
 }) => {
   const descriptionRef = useRef<HTMLDivElement>(null);
   const tablesRef = useRef<HTMLDivElement>(null);
@@ -46,6 +46,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({
         >
           Description
         </button>
+
         <button
           onClick={() => scrollToSection(tablesRef)}
           className="px-4 py-2 text-sm font-medium text-gray-200 hover:bg-gray-800 rounded-md duration-200"
@@ -60,9 +61,22 @@ const FilePreview: React.FC<FilePreviewProps> = ({
         </button>
       </div>
       <div className="mt-4">
-        <div ref={descriptionRef}>
-          <h2 className="text-lg font-semibold text-gray-200">Description</h2>
+        <div>
+          <h2
+            className="text-lg font-semibold text-gray-200 "
+            ref={descriptionRef}
+          >
+            Description
+          </h2>
           <p className="mt-2 text-gray-400">{description}</p>
+          <a
+            href={source}
+            className="mt-1 text-gray-500 hover:text-blue-500"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Source: {source}
+          </a>
         </div>
         <div ref={tablesRef} className="mt-8">
           <h2 className="text-lg font-semibold text-gray-200">Tables</h2>
@@ -73,7 +87,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({
         </div>
         <div ref={referencedByRef} className="mt-8">
           <h2 className="text-lg font-semibold text-gray-200">Referenced By</h2>
-          <ul className="mt-2 text-gray-400">
+          <ul className="mt-2 text-gray-400 overflow-scroll">
             {referencedBy.map((ref, index) => (
               <li
                 className="hover:underline hover:cursor-pointer hover:text-blue-500 duration-100"
