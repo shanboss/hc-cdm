@@ -224,19 +224,7 @@ export default function page() {
         concepts they use, ensuring consistent and accurate data interpretations
         across various analytical processes.
       </p>
-      <p className="p-2 text-md">
-        The Health Chain financial data mart encompasses several critical views
-        designed to facilitate comprehensive data analysis and reporting. These
-        views include:
-      </p>
-      <ul className="list-disc p-4">
-        <li>Explanation of Benefit Base</li>
-        <li>Explanation of Benefit Item Base</li>
-        <li>Explanation of Benefit Adjudication Base</li>
-        <li>Coverage Base</li>
-        <li>Account Base</li>
-        <li>Patient Base</li>
-      </ul>
+
       <p className="p-2 text-md">
         Each of these views is derived from the Health Chain Core Data Model,
         ensuring consistency and reliability in the data. The Health Chain
